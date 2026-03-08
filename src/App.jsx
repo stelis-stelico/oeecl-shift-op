@@ -8,34 +8,6 @@ export default function App() {
   const [month, setMonth] = useState(new Date().getMonth());
   const [showModal, setShowModal] = useState(false);
   const [submitted, setSubmitted] = useState(null);
-  const [installPrompt, setInstallPrompt] = useState(null);
-  const [installed, setInstalled] = useState(false);
-
-  useEffect(() => {
-    const handler = (e) => {
-      e.preventDefault();
-      setInstallPrompt(e);
-    };
-    window.addEventListener("beforeinstallprompt", handler);
-
-    window.addEventListener("appinstalled", () => {
-      setInstalled(true);
-      setInstallPrompt(null);
-    });
-
-    return () => window.removeEventListener("beforeinstallprompt", handler);
-  }, []);
-
-  const handleInstall = async () => {
-    if (installPrompt) {
-      await installPrompt.prompt();
-      const { outcome } = await installPrompt.userChoice;
-      if (outcome === "accepted") {
-        setInstalled(true);
-        setInstallPrompt(null);
-      }
-    }
-  };
 
   const handleCheck = () => {
     setSubmitted({ shift, year: Number(year), month: Number(month) });
@@ -169,33 +141,6 @@ export default function App() {
             >
               Check Roster
             </button>
-
-            {/* Install Button — always visible */}
-            {installed ? (
-              <p className="text-center text-xs font-semibold" style={{ color: "#009d02" }}>
-                ✓ App installed successfully!
-              </p>
-            ) : (
-              <button
-                onClick={handleInstall}
-                className="w-full py-4 rounded-xl font-black text-sm tracking-widest uppercase transition-all duration-200 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
-                style={{
-                  background: "#fff",
-                  color: "#1e3a5f",
-                  border: "2px solid #1e3a5f",
-                }}
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12m0 0l-4-4m4 4l4-4" />
-                </svg>
-                Install App
-              </button>
-            )}
-
-            {/* iPhone instruction */}
-            <p className="text-center text-xs text-slate-400 leading-relaxed">
-              iPhone users: tap the Share button in Safari then <span className="font-semibold">"Add to Home Screen"</span>
-            </p>
           </div>
 
           {/* Legend mini */}
