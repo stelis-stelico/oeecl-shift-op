@@ -148,8 +148,8 @@ export default function App() {
             {Object.entries(DUTY_CONFIG).map(([key, cfg]) => (
               <span key={key} className="flex items-center gap-1 text-xs text-slate-400">
                 <span
-                  className={`w-4 h-4 rounded-full flex items-center justify-center text-white text-xs font-bold ${cfg.bg}`}
-                  style={{ fontSize: "9px" }}
+                  className="w-4 h-4 rounded-full flex items-center justify-center font-bold"
+                  style={{ background: cfg.bgColor, color: cfg.textColor, fontSize: "9px" }}
                 >
                   {cfg.label}
                 </span>

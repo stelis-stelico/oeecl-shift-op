@@ -53,9 +53,13 @@ export default function CalendarModal({ shift, year, month, onClose }) {
           {Object.entries(DUTY_CONFIG).map(([key, cfg]) => (
             <span
               key={key}
-              className={`flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full ${cfg.badge}`}
+              className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
+              style={{ background: cfg.badgeBg, color: cfg.badgeText }}
             >
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-white text-xs font-bold ${cfg.bg}`}>
+              <span
+                className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold"
+                style={{ background: cfg.bgColor, color: cfg.textColor }}
+              >
                 {cfg.label}
               </span>
               {cfg.full} Duty ({counts[key]})
@@ -88,18 +92,27 @@ export default function CalendarModal({ shift, year, month, onClose }) {
               return (
                 <div
                   key={day}
-                  className={`
-                    relative flex flex-col items-center justify-center
-                    rounded-xl py-2 px-1 transition-all
-                    ${cfg.bg} ${cfg.text}
-                    ${isToday ? `ring-2 ${cfg.ring} ring-offset-1 ring-offset-slate-900 scale-105` : ""}
-                  `}
-                  style={{ minHeight: "52px" }}
+                  className="relative flex flex-col items-center justify-center rounded-xl py-2 px-1 transition-all"
+                  style={{
+                    minHeight: "52px",
+                    background: cfg.bgColor,
+                    color: cfg.textColor,
+                    outline: isToday ? `2px solid ${cfg.ringColor}` : "none",
+                    outlineOffset: "2px",
+                    transform: isToday ? "scale(1.05)" : "scale(1)",
+                  }}
                 >
-                  <span className="text-xs font-bold leading-none opacity-80 mb-1">{day}</span>
-                  <span className="text-base font-black leading-none">{cfg.label}</span>
+                  <span className="text-xs font-bold leading-none mb-1" style={{ opacity: 0.8 }}>
+                    {day}
+                  </span>
+                  <span className="text-base font-black leading-none">
+                    {cfg.label}
+                  </span>
                   {isToday && (
-                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-yellow-400 rounded-full border-2 border-slate-900" />
+                    <span
+                      className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full border-2"
+                      style={{ background: "#facc15", borderColor: "#0f172a" }}
+                    />
                   )}
                 </div>
               );
