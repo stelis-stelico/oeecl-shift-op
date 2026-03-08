@@ -12,14 +12,12 @@ export default function App() {
   const [installed, setInstalled] = useState(false);
 
   useEffect(() => {
-    // Capture the install prompt event before it fires automatically
     const handler = (e) => {
       e.preventDefault();
       setInstallPrompt(e);
     };
     window.addEventListener("beforeinstallprompt", handler);
 
-    // Hide button if app is already installed
     window.addEventListener("appinstalled", () => {
       setInstalled(true);
       setInstallPrompt(null);
@@ -29,12 +27,13 @@ export default function App() {
   }, []);
 
   const handleInstall = async () => {
-    if (!installPrompt) return;
-    await installPrompt.prompt();
-    const { outcome } = await installPrompt.userChoice;
-    if (outcome === "accepted") {
-      setInstalled(true);
-      setInstallPrompt(null);
+    if (installPrompt) {
+      await installPrompt.prompt();
+      const { outcome } = await installPrompt.userChoice;
+      if (outcome === "accepted") {
+        setInstalled(true);
+        setInstallPrompt(null);
+      }
     }
   };
 
@@ -171,8 +170,12 @@ export default function App() {
               Check Roster
             </button>
 
-            {/* Install Button — only shows on Android when prompt is available */}
-            {installPrompt && !installed && (
+            {/* Install Button — always visible */}
+            {installed ? (
+              <p className="text-center text-xs font-semibold" style={{ color: "#009d02" }}>
+                ✓ App installed successfully!
+              </p>
+            ) : (
               <button
                 onClick={handleInstall}
                 className="w-full py-4 rounded-xl font-black text-sm tracking-widest uppercase transition-all duration-200 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
@@ -187,13 +190,6 @@ export default function App() {
                 </svg>
                 Install App
               </button>
-            )}
-
-            {/* Installed confirmation */}
-            {installed && (
-              <p className="text-center text-xs font-semibold" style={{ color: "#009d02" }}>
-                ✓ App installed successfully!
-              </p>
             )}
 
             {/* iPhone instruction */}
