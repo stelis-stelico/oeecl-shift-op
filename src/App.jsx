@@ -100,7 +100,7 @@ export default function App() {
               O.E.E.C.L
             </h1>
             <h2 className="text-sm font-semibold tracking-widest text-slate-400 uppercase mt-1">
-              Shift Roster
+              Operations Dept Shift Roster
             </h2>
           </div>
 
